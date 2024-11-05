@@ -30,6 +30,7 @@ exp
     | block                                                 #BlockExpr
     | If exp Then block Else block                          #IfExpr
     | While exp Do block                                    #WhileExpr
+    | Repeat block Until exp                                #RepeatUntilExpr
     | Print exp                                             #PrintExpr
     | Print NewLine                                         #PrintNewLineExpr
     | Space                                                 #SpaceExpr
@@ -75,6 +76,8 @@ Then : 'then' ;
 Else : 'else' ;
 While : 'while' ;
 Do : 'do' ;
+Repeat : 'repeat' ;
+Until: 'until' ;
 
 IntType : 'int' ;
 BoolType : 'bool' ;
