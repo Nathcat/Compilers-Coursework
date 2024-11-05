@@ -24,10 +24,12 @@ block
 
 exp
     : Idfr Assign exp                                       #AssignExpr
+    | typed_idfr Assign exp                                 #DecAssignExpr
     | LParen exp binop exp RParen                           #BinOpExpr
     | Idfr LParen (args+=exp (Comma args+=exp)*)? RParen    #InvokeExpr
     | block                                                 #BlockExpr
     | If exp Then block Else block                          #IfExpr
+    | While exp Do block                                    #WhileExpr
     | Print exp                                             #PrintExpr
     | Space                                                 #SpaceExpr
     | Idfr                                                  #IdExpr
@@ -66,6 +68,8 @@ NewLine : 'newline' ;
 If : 'if' ;
 Then : 'then' ;
 Else : 'else' ;
+While : 'while' ;
+Do : 'do' ;
 
 IntType : 'int' ;
 BoolType : 'bool' ;
