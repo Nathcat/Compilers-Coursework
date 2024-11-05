@@ -3,7 +3,7 @@ grammar SimpleLang;
 prog : dec+ EOF;
 
 dec
-    : typed_idfr LParen (vardec+=typed_idfr (Comma typed_idfr)*)? RParen body
+    : typed_idfr LParen (vardec+=typed_idfr (Comma vardec+=typed_idfr)*)? RParen body
 ;
 
 typed_idfr

@@ -228,7 +228,8 @@ public class SimpleLangParser extends Parser {
 					setState(26);
 					match(Comma);
 					setState(27);
-					typed_idfr();
+					((DecContext)_localctx).typed_idfr = typed_idfr();
+					((DecContext)_localctx).vardec.add(((DecContext)_localctx).typed_idfr);
 					}
 					}
 					setState(32);
