@@ -31,6 +31,7 @@ exp
     | If exp Then block Else block                          #IfExpr
     | While exp Do block                                    #WhileExpr
     | Print exp                                             #PrintExpr
+    | Print NewLine                                         #PrintNewLineExpr
     | Space                                                 #SpaceExpr
     | Idfr                                                  #IdExpr
     | IntLit                                                #IntExpr
