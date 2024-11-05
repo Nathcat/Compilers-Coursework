@@ -95,6 +95,13 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhileExpr(SimpleLangParser.WhileExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code RepeatUntilExpr}
+	 * labeled alternative in {@link SimpleLangParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRepeatUntilExpr(SimpleLangParser.RepeatUntilExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code PrintExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.
 	 * @param ctx the parse tree
@@ -130,6 +137,13 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntExpr(SimpleLangParser.IntExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code BoolExpr}
+	 * labeled alternative in {@link SimpleLangParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolExpr(SimpleLangParser.BoolExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code EqBinop}
 	 * labeled alternative in {@link SimpleLangParser#binop}.
 	 * @param ctx the parse tree
@@ -151,6 +165,20 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLessEqBinop(SimpleLangParser.LessEqBinopContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code MoreBinop}
+	 * labeled alternative in {@link SimpleLangParser#binop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoreBinop(SimpleLangParser.MoreBinopContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MoreEqBinop}
+	 * labeled alternative in {@link SimpleLangParser#binop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoreEqBinop(SimpleLangParser.MoreEqBinopContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code PlusBinop}
 	 * labeled alternative in {@link SimpleLangParser#binop}.
 	 * @param ctx the parse tree
@@ -171,4 +199,32 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTimesBinop(SimpleLangParser.TimesBinopContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DivideBinop}
+	 * labeled alternative in {@link SimpleLangParser#binop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivideBinop(SimpleLangParser.DivideBinopContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AndBinop}
+	 * labeled alternative in {@link SimpleLangParser#binop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAndBinop(SimpleLangParser.AndBinopContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code OrBinop}
+	 * labeled alternative in {@link SimpleLangParser#binop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrBinop(SimpleLangParser.OrBinopContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NotBinop}
+	 * labeled alternative in {@link SimpleLangParser#binop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotBinop(SimpleLangParser.NotBinopContext ctx);
 }

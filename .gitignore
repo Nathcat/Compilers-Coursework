@@ -43,6 +43,7 @@ out/
 *.iml
 *.tokens
 out
+/**/build/*
 
 # Ignore C# regression temporaries.
 **/Generated*/

@@ -172,6 +172,18 @@ public class SimpleLangBaseListener implements SimpleLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRepeatUntilExpr(SimpleLangParser.RepeatUntilExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRepeatUntilExpr(SimpleLangParser.RepeatUntilExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPrintExpr(SimpleLangParser.PrintExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -232,6 +244,18 @@ public class SimpleLangBaseListener implements SimpleLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBoolExpr(SimpleLangParser.BoolExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBoolExpr(SimpleLangParser.BoolExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEqBinop(SimpleLangParser.EqBinopContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -268,6 +292,30 @@ public class SimpleLangBaseListener implements SimpleLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMoreBinop(SimpleLangParser.MoreBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMoreBinop(SimpleLangParser.MoreBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMoreEqBinop(SimpleLangParser.MoreEqBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMoreEqBinop(SimpleLangParser.MoreEqBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPlusBinop(SimpleLangParser.PlusBinopContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -299,6 +347,54 @@ public class SimpleLangBaseListener implements SimpleLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTimesBinop(SimpleLangParser.TimesBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDivideBinop(SimpleLangParser.DivideBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDivideBinop(SimpleLangParser.DivideBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAndBinop(SimpleLangParser.AndBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAndBinop(SimpleLangParser.AndBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOrBinop(SimpleLangParser.OrBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrBinop(SimpleLangParser.OrBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNotBinop(SimpleLangParser.NotBinopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNotBinop(SimpleLangParser.NotBinopContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

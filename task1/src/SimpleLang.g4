@@ -36,17 +36,22 @@ exp
     | Space                                                 #SpaceExpr
     | Idfr                                                  #IdExpr
     | IntLit                                                #IntExpr
+    | BoolLit                                               #BoolExpr
 ;
 
 binop
     : Eq              #EqBinop
     | Less            #LessBinop
     | LessEq          #LessEqBinop
+    | More            #MoreBinop
+    | MoreEq          #MoreEqBinop
     | Plus            #PlusBinop
     | Minus           #MinusBinop
     | Times           #TimesBinop
+    | Divide          #DivideBinop
     | And             #AndBinop
     | Or              #OrBinop
+    | Not             #NotBinop
 ;
 
 LParen : '(' ;
@@ -59,12 +64,16 @@ RBrace : '}' ;
 Eq : '==' ;
 Less : '<' ;
 LessEq : '<=' ;
+More : '>' ;
+MoreEq : '>=' ;
 And : '&' ;
 Or : '|' ;
+Not : '!' ;
 
 Plus : '+' ;
 Times : '*' ;
 Minus : '-' ;
+Divide : '/' ;
 
 Assign : ':=' ;
 

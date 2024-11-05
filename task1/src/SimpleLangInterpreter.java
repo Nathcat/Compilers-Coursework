@@ -187,6 +187,11 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
         return null;
     }
 
+    @Override
+    public Integer visitRepeatUntilExpr(SimpleLangParser.RepeatUntilExprContext ctx) {
+        return null;
+    }
+
     @Override public Integer visitPrintExpr(SimpleLangParser.PrintExprContext ctx) {
 
         SimpleLangParser.ExpContext exp = ctx.exp();
@@ -229,6 +234,12 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
         return Integer.parseInt(ctx.IntLit().getText());
 
     }
+
+    @Override
+    public Integer visitBoolExpr(SimpleLangParser.BoolExprContext ctx) {
+        return null;
+    }
+
     @Override public Integer visitEqBinop(SimpleLangParser.EqBinopContext ctx) {
         throw new RuntimeException("Should not be here!");
     }
@@ -238,6 +249,17 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     @Override public Integer visitLessEqBinop(SimpleLangParser.LessEqBinopContext ctx) {
         throw new RuntimeException("Should not be here!");
     }
+
+    @Override
+    public Integer visitMoreBinop(SimpleLangParser.MoreBinopContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Integer visitMoreEqBinop(SimpleLangParser.MoreEqBinopContext ctx) {
+        return null;
+    }
+
     @Override public Integer visitPlusBinop(SimpleLangParser.PlusBinopContext ctx) {
         throw new RuntimeException("Should not be here!");
     }
@@ -246,6 +268,26 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     }
     @Override public Integer visitTimesBinop(SimpleLangParser.TimesBinopContext ctx) {
         throw new RuntimeException("Should not be here!");
+    }
+
+    @Override
+    public Integer visitDivideBinop(SimpleLangParser.DivideBinopContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Integer visitAndBinop(SimpleLangParser.AndBinopContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Integer visitOrBinop(SimpleLangParser.OrBinopContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Integer visitNotBinop(SimpleLangParser.NotBinopContext ctx) {
+        return null;
     }
 
 }
