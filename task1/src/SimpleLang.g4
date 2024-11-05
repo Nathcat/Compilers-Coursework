@@ -26,6 +26,7 @@ exp
     : Idfr Assign exp                                       #AssignExpr
     | typed_idfr Assign exp                                 #DecAssignExpr
     | LParen exp binop exp RParen                           #BinOpExpr
+    | LParen unop exp RParen                                #UnaryOpExpr
     | Idfr LParen (args+=exp (Comma args+=exp)*)? RParen    #InvokeExpr
     | block                                                 #BlockExpr
     | If exp Then block Else block                          #IfExpr
@@ -51,7 +52,10 @@ binop
     | Divide          #DivideBinop
     | And             #AndBinop
     | Or              #OrBinop
-    | Not             #NotBinop
+;
+
+unop
+    : Not             # NotUnop
 ;
 
 LParen : '(' ;

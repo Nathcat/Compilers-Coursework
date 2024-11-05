@@ -67,6 +67,13 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBinOpExpr(SimpleLangParser.BinOpExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code UnaryOpExpr}
+	 * labeled alternative in {@link SimpleLangParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryOpExpr(SimpleLangParser.UnaryOpExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code InvokeExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.
 	 * @param ctx the parse tree
@@ -221,10 +228,10 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOrBinop(SimpleLangParser.OrBinopContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code NotBinop}
-	 * labeled alternative in {@link SimpleLangParser#binop}.
+	 * Visit a parse tree produced by the {@code NotUnop}
+	 * labeled alternative in {@link SimpleLangParser#unop}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNotBinop(SimpleLangParser.NotBinopContext ctx);
+	T visitNotUnop(SimpleLangParser.NotUnopContext ctx);
 }

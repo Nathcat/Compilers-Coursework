@@ -124,6 +124,18 @@ public class SimpleLangBaseListener implements SimpleLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUnaryOpExpr(SimpleLangParser.UnaryOpExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUnaryOpExpr(SimpleLangParser.UnaryOpExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInvokeExpr(SimpleLangParser.InvokeExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -388,13 +400,13 @@ public class SimpleLangBaseListener implements SimpleLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNotBinop(SimpleLangParser.NotBinopContext ctx) { }
+	@Override public void enterNotUnop(SimpleLangParser.NotUnopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNotBinop(SimpleLangParser.NotBinopContext ctx) { }
+	@Override public void exitNotUnop(SimpleLangParser.NotUnopContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

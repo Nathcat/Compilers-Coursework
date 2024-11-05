@@ -95,7 +95,11 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitDecAssignExpr(SimpleLangParser.DecAssignExprContext ctx) {
+
+        SimpleLangParser.ExpContext val = ctx.exp();
+        frames.peek().put(ctx.typed_idfr().Idfr().getText(), visit(val));
         return null;
+
     }
 
     @Override public Integer visitBinOpExpr(SimpleLangParser.BinOpExprContext ctx) {
@@ -122,6 +126,16 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
                 return ((oprnd1 <= oprnd2) ? 1 : 0);
 
             }
+            case SimpleLangParser.More -> {
+
+                return ((oprnd1 > oprnd2) ? 1 : 0);
+
+            }
+            case SimpleLangParser.MoreEq -> {
+
+                return (oprnd1 >= oprnd2) ? 1 : 0;
+
+            }
             case SimpleLangParser.Plus -> {
 
                 return oprnd1 + oprnd2;
@@ -137,6 +151,25 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
                 return oprnd1 * oprnd2;
 
             }
+            case SimpleLangParser.Divide -> {
+
+                return oprnd1 / oprnd2;
+
+            }
+            case SimpleLangParser.And -> {
+
+                boolean o1b = oprnd1 == 1;
+                boolean o2b = oprnd2 == 1;
+                return o1b && o2b ? 1 : 0;
+
+            }
+            case SimpleLangParser.Or -> {
+
+                boolean o1b = oprnd1 == 1;
+                boolean o2b = oprnd2 == 1;
+                return o1b || o2b ? 1 : 0;
+
+            }
             default -> {
                 throw new RuntimeException("Shouldn't be here - wrong binary operator.");
             }
@@ -144,6 +177,12 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
         }
 
     }
+
+    @Override
+    public Integer visitUnaryOpExpr(SimpleLangParser.UnaryOpExprContext ctx) {
+        return null;
+    }
+
     @Override public Integer visitInvokeExpr(SimpleLangParser.InvokeExprContext ctx)
     {
 
@@ -286,8 +325,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     }
 
     @Override
-    public Integer visitNotBinop(SimpleLangParser.NotBinopContext ctx) {
+    public Integer visitNotUnop(SimpleLangParser.NotUnopContext ctx) {
         return null;
     }
-
 }
