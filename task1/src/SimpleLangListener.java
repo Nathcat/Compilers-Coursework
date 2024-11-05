@@ -187,17 +187,17 @@ public interface SimpleLangListener extends ParseTreeListener {
 	 */
 	void exitPrintExpr(SimpleLangParser.PrintExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code PrintNewLineExpr}
+	 * Enter a parse tree produced by the {@code NewLineExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrintNewLineExpr(SimpleLangParser.PrintNewLineExprContext ctx);
+	void enterNewLineExpr(SimpleLangParser.NewLineExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code PrintNewLineExpr}
+	 * Exit a parse tree produced by the {@code NewLineExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrintNewLineExpr(SimpleLangParser.PrintNewLineExprContext ctx);
+	void exitNewLineExpr(SimpleLangParser.NewLineExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code SpaceExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.

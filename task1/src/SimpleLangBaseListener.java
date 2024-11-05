@@ -208,13 +208,13 @@ public class SimpleLangBaseListener implements SimpleLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrintNewLineExpr(SimpleLangParser.PrintNewLineExprContext ctx) { }
+	@Override public void enterNewLineExpr(SimpleLangParser.NewLineExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrintNewLineExpr(SimpleLangParser.PrintNewLineExprContext ctx) { }
+	@Override public void exitNewLineExpr(SimpleLangParser.NewLineExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -180,7 +180,18 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitUnaryOpExpr(SimpleLangParser.UnaryOpExprContext ctx) {
-        return null;
+         Integer operand = visit(ctx.exp());
+
+         switch (((TerminalNode) (ctx.unop().getChild(0))).getSymbol().getType()) {
+             case SimpleLangParser.Not -> {
+
+                 return operand == 1 ? 0 : 1;
+
+             }
+             default -> {
+                 throw new RuntimeException("Incorrect unary operator, this should not be here");
+             }
+         }
     }
 
     @Override public Integer visitInvokeExpr(SimpleLangParser.InvokeExprContext ctx)
@@ -223,11 +234,24 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitWhileExpr(SimpleLangParser.WhileExprContext ctx) {
+        SimpleLangParser.ExpContext conditionExp = ctx.exp();
+
+        while (visit(conditionExp) == 1) {
+            visit(ctx.block());
+        }
+
         return null;
     }
 
     @Override
     public Integer visitRepeatUntilExpr(SimpleLangParser.RepeatUntilExprContext ctx) {
+        SimpleLangParser.ExpContext conditionExp = ctx.exp();
+
+        do {
+            visit(ctx.block());
+        }
+        while (!(visit(conditionExp) == 1));  // Not because in the language it is repeat "until" not "while".
+
         return null;
     }
 
@@ -254,7 +278,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     }
 
     @Override
-    public Integer visitPrintNewLineExpr(SimpleLangParser.PrintNewLineExprContext ctx) {
+    public Integer visitNewLineExpr(SimpleLangParser.NewLineExprContext ctx) {
         return null;
     }
 
@@ -276,7 +300,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitBoolExpr(SimpleLangParser.BoolExprContext ctx) {
-        return null;
+        return ctx.BoolLit().getText().contentEquals("true") ? 1 : 0;
     }
 
     @Override public Integer visitEqBinop(SimpleLangParser.EqBinopContext ctx) {
@@ -291,12 +315,12 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitMoreBinop(SimpleLangParser.MoreBinopContext ctx) {
-        return null;
+        throw new RuntimeException("Should not be here!");
     }
 
     @Override
     public Integer visitMoreEqBinop(SimpleLangParser.MoreEqBinopContext ctx) {
-        return null;
+        throw new RuntimeException("Should not be here!");
     }
 
     @Override public Integer visitPlusBinop(SimpleLangParser.PlusBinopContext ctx) {
@@ -311,21 +335,21 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitDivideBinop(SimpleLangParser.DivideBinopContext ctx) {
-        return null;
+        throw new RuntimeException("Should not be here!");
     }
 
     @Override
     public Integer visitAndBinop(SimpleLangParser.AndBinopContext ctx) {
-        return null;
+        throw new RuntimeException("Should not be here!");
     }
 
     @Override
     public Integer visitOrBinop(SimpleLangParser.OrBinopContext ctx) {
-        return null;
+        throw new RuntimeException("Should not be here!");
     }
 
     @Override
     public Integer visitNotUnop(SimpleLangParser.NotUnopContext ctx) {
-        return null;
+        throw new RuntimeException("Should not be here!");
     }
 }

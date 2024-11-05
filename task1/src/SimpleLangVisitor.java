@@ -116,12 +116,12 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrintExpr(SimpleLangParser.PrintExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code PrintNewLineExpr}
+	 * Visit a parse tree produced by the {@code NewLineExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrintNewLineExpr(SimpleLangParser.PrintNewLineExprContext ctx);
+	T visitNewLineExpr(SimpleLangParser.NewLineExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SpaceExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.

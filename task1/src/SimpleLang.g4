@@ -33,7 +33,7 @@ exp
     | While exp Do block                                    #WhileExpr
     | Repeat block Until exp                                #RepeatUntilExpr
     | Print exp                                             #PrintExpr
-    | Print NewLine                                         #PrintNewLineExpr
+    | NewLine                                               #NewLineExpr
     | Space                                                 #SpaceExpr
     | Idfr                                                  #IdExpr
     | IntLit                                                #IntExpr
