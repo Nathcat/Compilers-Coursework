@@ -44,6 +44,8 @@ binop
     | Plus            #PlusBinop
     | Minus           #MinusBinop
     | Times           #TimesBinop
+    | And             #AndBinop
+    | Or              #OrBinop
 ;
 
 LParen : '(' ;
@@ -56,6 +58,8 @@ RBrace : '}' ;
 Eq : '==' ;
 Less : '<' ;
 LessEq : '<=' ;
+And : '&' ;
+Or : '|' ;
 
 Plus : '+' ;
 Times : '*' ;

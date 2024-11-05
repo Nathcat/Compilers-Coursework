@@ -93,6 +93,11 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     }
 
+    @Override
+    public Integer visitDecAssignExpr(SimpleLangParser.DecAssignExprContext ctx) {
+        return null;
+    }
+
     @Override public Integer visitBinOpExpr(SimpleLangParser.BinOpExprContext ctx) {
 
         SimpleLangParser.ExpContext operand1 = ctx.exp(0);
@@ -177,6 +182,11 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     }
 
+    @Override
+    public Integer visitWhileExpr(SimpleLangParser.WhileExprContext ctx) {
+        return null;
+    }
+
     @Override public Integer visitPrintExpr(SimpleLangParser.PrintExprContext ctx) {
 
         SimpleLangParser.ExpContext exp = ctx.exp();
@@ -197,6 +207,11 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
         return null;
 
+    }
+
+    @Override
+    public Integer visitPrintNewLineExpr(SimpleLangParser.PrintNewLineExprContext ctx) {
+        return null;
     }
 
     @Override public Integer visitSpaceExpr(SimpleLangParser.SpaceExprContext ctx) {

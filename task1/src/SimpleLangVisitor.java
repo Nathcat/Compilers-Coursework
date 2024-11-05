@@ -1,4 +1,4 @@
-// Generated from C:/Users/user/Dropbox/_Teaching/Compilers/coursework/123456/task1/src/SimpleLang.g4 by ANTLR 4.13.1
+// Generated from C:/Users/super/Documents/GitHub/Compilers-Coursework/task1/src/SimpleLang.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -53,6 +53,13 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignExpr(SimpleLangParser.AssignExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code DecAssignExpr}
+	 * labeled alternative in {@link SimpleLangParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecAssignExpr(SimpleLangParser.DecAssignExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code BinOpExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.
 	 * @param ctx the parse tree
@@ -81,12 +88,26 @@ public interface SimpleLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfExpr(SimpleLangParser.IfExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code WhileExpr}
+	 * labeled alternative in {@link SimpleLangParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileExpr(SimpleLangParser.WhileExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code PrintExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPrintExpr(SimpleLangParser.PrintExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PrintNewLineExpr}
+	 * labeled alternative in {@link SimpleLangParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintNewLineExpr(SimpleLangParser.PrintNewLineExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SpaceExpr}
 	 * labeled alternative in {@link SimpleLangParser#exp}.

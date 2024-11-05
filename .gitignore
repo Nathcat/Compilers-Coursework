@@ -41,7 +41,6 @@ out/
 #IntelliJ Idea project files
 .idea/
 *.iml
-/**/gen
 *.tokens
 out
 
