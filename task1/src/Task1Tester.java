@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Task1Tester {
@@ -39,7 +40,6 @@ public class Task1Tester {
                 try (FileReader fr = new FileReader(pathToTests + child.getName() + ".args"); BufferedReader br = new BufferedReader(fr)) {
                     String line;
                     while ((line = br.readLine()) != null) {
-
                         PrintStream old = System.out;
                         try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); PrintStream ps = new PrintStream(baos)) {
 
@@ -54,8 +54,9 @@ public class Task1Tester {
                             sb.append(baos);
 
                         } catch (Exception e) {
+                            e.printStackTrace(System.err);
 
-                            System.err.println("Exception when feeding " + line + " into " + child.getName());
+                            System.err.println("Exception when feeding \"" + line + "\" into " + child.getName());
                             System.setOut(old);
                             continue;
                         }

@@ -10,7 +10,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     public Integer visitProgram(SimpleLangParser.ProgContext ctx, String[] args)
     {
-
         for (int i = 0; i < ctx.dec().size(); ++i) {
 
             SimpleLangParser.DecContext dec = ctx.dec(i);
@@ -24,11 +23,11 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
         Map<String, Integer> newFrame = new HashMap<>();
         for (int i = 0; i < args.length; ++i) {
             if (args[i].equals("true")) {
-                newFrame.put(main.typed_idfr().get(i).Idfr().getText(), 1);
+                newFrame.put(main.vardec.get(i).Idfr().getText(), 1);
             } else if (args[i].equals("false")) {
-                newFrame.put(main.typed_idfr().get(i).Idfr().getText(), 0);
+                newFrame.put(main.vardec.get(i).Idfr().getText(), 0);
             } else {
-                newFrame.put(main.typed_idfr().get(i).Idfr().getText(), Integer.parseInt(args[i]));
+                newFrame.put(main.vardec.get(i).Idfr().getText(), Integer.parseInt(args[i]));
             }
         }
 
@@ -198,11 +197,13 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     {
 
         SimpleLangParser.DecContext dec = global_funcs.get(ctx.Idfr().getText());
-        SimpleLangParser.Typed_idfrContext param = dec.vardec.get(0);
         Map<String, Integer> newFrame = new HashMap<>();
 
-        SimpleLangParser.ExpContext exp = ctx.args.get(0);
-        newFrame.put(param.Idfr().getText(), visit(exp));
+        for (int i = 0; i < dec.vardec.size(); i++) {
+            SimpleLangParser.Typed_idfrContext param = dec.vardec.get(i);
+            SimpleLangParser.ExpContext exp = ctx.args.get(i);
+            newFrame.put(param.Idfr().getText(), visit(exp));
+        }
 
         frames.push(newFrame);
         return visit(dec);
@@ -236,11 +237,12 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     public Integer visitWhileExpr(SimpleLangParser.WhileExprContext ctx) {
         SimpleLangParser.ExpContext conditionExp = ctx.exp();
 
+        Integer result = null;
         while (visit(conditionExp) == 1) {
-            visit(ctx.block());
+            result = visit(ctx.block());
         }
 
-        return null;
+        return result;
     }
 
     @Override
@@ -286,8 +288,14 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
         return null;
     }
 
+    @Override
+    public Integer visitSkipExpr(SimpleLangParser.SkipExprContext ctx) {
+        return null;
+    }
+
     @Override public Integer visitIdExpr(SimpleLangParser.IdExprContext ctx)
     {
+        if (!frames.peek().containsKey(ctx.Idfr().getText())) throw new RuntimeException("Identifier " + ctx.Idfr().getText() + " not found!");
         return frames.peek().get(ctx.Idfr().getText());
     }
 

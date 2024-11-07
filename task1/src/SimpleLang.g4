@@ -35,6 +35,7 @@ exp
     | Print exp                                             #PrintExpr
     | NewLine                                               #NewLineExpr
     | Space                                                 #SpaceExpr
+    | Skip                                                  #SkipExpr
     | Idfr                                                  #IdExpr
     | IntLit                                                #IntExpr
     | BoolLit                                               #BoolExpr
@@ -84,6 +85,7 @@ Assign : ':=' ;
 Print : 'print' ;
 Space : 'space' ;
 NewLine : 'newline' ;
+Skip : 'skip' ;
 If : 'if' ;
 Then : 'then' ;
 Else : 'else' ;
