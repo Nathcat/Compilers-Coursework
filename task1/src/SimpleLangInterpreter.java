@@ -86,8 +86,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     @Override public Integer visitAssignExpr(SimpleLangParser.AssignExprContext ctx)
     {
 
-        SimpleLangParser.ExpContext rhs = ctx.exp();
-        frames.peek().replace(ctx.Idfr().getText(), visit(rhs));
+        frames.peek().replace(ctx.Idfr().getText(), visit(ctx.exp()));
         return null;
 
     }
@@ -95,8 +94,14 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     @Override
     public Integer visitDecAssignExpr(SimpleLangParser.DecAssignExprContext ctx) {
 
-        SimpleLangParser.ExpContext val = ctx.exp();
-        frames.peek().put(ctx.typed_idfr().Idfr().getText(), visit(val));
+        Integer val = visit(ctx.exp());
+        if (ctx.typed_idfr().type().getText().contentEquals("bool")) {
+            if (val != 0 && val != 1) {
+                throw new RuntimeException("Type provided by expression does not match declared variable type.");
+            }
+        }
+
+        frames.peek().put(ctx.typed_idfr().Idfr().getText(), val);
         return null;
 
     }
@@ -242,6 +247,34 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
             result = visit(ctx.block());
         }
 
+        // Allowed the while statement to return here.
+        // This means that the following might be valid:
+        //
+        // int main() {
+        //      while (some_condition) {
+        //          ... do some stuff
+        //          if (stuff worked) then {
+        //              5
+        //          } else {
+        //              6
+        //          }
+        //      }
+        // }
+        //
+        // The alternative might be
+        //
+        // int main() {
+        //      int a := 6;
+        //      while (some_condition) {
+        //          ... do some stuff
+        //          if (stuff worked) then {
+        //              5
+        //          } else { skip }
+        //      }
+        //      a
+        // }
+        //
+        // Which would still be valid, but just felt unnecessary?
         return result;
     }
 
