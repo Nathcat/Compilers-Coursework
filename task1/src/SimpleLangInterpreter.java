@@ -1,12 +1,69 @@
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.*;
 
 public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> implements SimpleLangVisitor<Integer> {
 
+    private static class TypedIdfr {
+        public final String name;
+        private final SimpleLangParser.Typed_idfrContext ctx;
+        private Integer value;
+
+        public TypedIdfr(String name, SimpleLangParser.Typed_idfrContext ctx) {
+            this.name = name;
+            this.ctx = ctx;
+        }
+
+        public Integer set(Integer value) {
+            if (ctx.type().BoolType() != null) {
+                if (value < 0 || value > 1) {
+                    throw new RuntimeException("Value " + value + " may not be cast to a boolean.");
+                }
+                else {
+                    this.value = value;
+                }
+            }
+            else {
+                this.value = value;
+            }
+
+            return this.value;
+        }
+
+        public Integer get() {
+            return this.value;
+        }
+    }
+
     private final Map<String, SimpleLangParser.DecContext> global_funcs = new HashMap<>();
-    private final Stack<Map<String, Integer>> frames = new Stack<>();
+    private final Stack<Map<String, TypedIdfr>> frames = new Stack<>();
+
+    public Integer visitTreeEnforceType(ParseTree exp, int type) {
+        Integer r = visit(exp);
+
+        if (type == SimpleLangParser.BoolType) {
+            if (r == null || r < 0 || r > 1) {
+                throw new RuntimeException("Expression '" + exp.getText() + "' must return bool-like type.");
+            }
+            else {
+                return r;
+            }
+        }
+        else if (type == SimpleLangParser.IntType) {
+            if (r != null) return r;
+            else throw new RuntimeException("Expression '" + exp.getText() + "' must return integer type.");
+        }
+
+        return r;
+    }
+
+    public int determineType(SimpleLangParser.TypeContext ctx) {
+        if (ctx.IntType() != null) return SimpleLangParser.IntType;
+        else if (ctx.BoolType() != null) return SimpleLangParser.BoolType;
+        else return SimpleLangParser.UnitType;
+    }
 
     public Integer visitProgram(SimpleLangParser.ProgContext ctx, String[] args)
     {
@@ -14,20 +71,31 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
             SimpleLangParser.DecContext dec = ctx.dec(i);
             SimpleLangParser.Typed_idfrContext typedIdfr = dec.typed_idfr(0);
+
+            if (global_funcs.containsKey(typedIdfr.Idfr().getText())) {
+                throw new RuntimeException("Function " + typedIdfr.Idfr().getText() + " already exists!");
+            }
+
             global_funcs.put(typedIdfr.Idfr().getText(), dec);
 
         }
 
         SimpleLangParser.DecContext main = global_funcs.get("main");
 
-        Map<String, Integer> newFrame = new HashMap<>();
+        Map<String, TypedIdfr> newFrame = new HashMap<>();
         for (int i = 0; i < args.length; ++i) {
             if (args[i].equals("true")) {
-                newFrame.put(main.vardec.get(i).Idfr().getText(), 1);
+                TypedIdfr t = new TypedIdfr(main.vardec.get(i).Idfr().getText(), main.vardec.get(i));
+                t.set(1);
+                newFrame.put(main.vardec.get(i).Idfr().getText(), t);
             } else if (args[i].equals("false")) {
-                newFrame.put(main.vardec.get(i).Idfr().getText(), 0);
+                TypedIdfr t = new TypedIdfr(main.vardec.get(i).Idfr().getText(), main.vardec.get(i));
+                t.set(0);
+                newFrame.put(main.vardec.get(i).Idfr().getText(), t);
             } else {
-                newFrame.put(main.vardec.get(i).Idfr().getText(), Integer.parseInt(args[i]));
+                TypedIdfr t = new TypedIdfr(main.vardec.get(i).Idfr().getText(), main.vardec.get(i));
+                t.set(Integer.parseInt(args[i]));
+                newFrame.put(main.vardec.get(i).Idfr().getText(), t);
             }
         }
 
@@ -46,7 +114,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     @Override public Integer visitDec(SimpleLangParser.DecContext ctx)
     {
 
-        Integer returnValue = visit(ctx.body());
+        Integer returnValue = visitTreeEnforceType(ctx.body(), determineType(ctx.typed_idfr(0).type()));
         frames.pop();
         return returnValue;
 
@@ -86,22 +154,22 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     @Override public Integer visitAssignExpr(SimpleLangParser.AssignExprContext ctx)
     {
 
-        frames.peek().replace(ctx.Idfr().getText(), visit(ctx.exp()));
+        if (!frames.peek().containsKey(ctx.Idfr().getText())) {
+            throw new RuntimeException("Variable " + ctx.Idfr().getText() + " does not exist.");
+        }
+
+        frames.peek().get(ctx.Idfr().getText()).set(visit(ctx.exp()));
         return null;
 
     }
 
     @Override
     public Integer visitDecAssignExpr(SimpleLangParser.DecAssignExprContext ctx) {
-
-        Integer val = visit(ctx.exp());
-        if (ctx.typed_idfr().type().getText().contentEquals("bool")) {
-            if (val != 0 && val != 1) {
-                throw new RuntimeException("Type provided by expression does not match declared variable type.");
-            }
-        }
-
-        frames.peek().put(ctx.typed_idfr().Idfr().getText(), val);
+        TypedIdfr t = new TypedIdfr(ctx.typed_idfr().Idfr().getText(), ctx.typed_idfr());
+        t.set(
+                visitTreeEnforceType(ctx.exp(), determineType(ctx.typed_idfr().type()))
+        );
+        frames.peek().put(ctx.typed_idfr().Idfr().getText(), t);
         return null;
 
     }
@@ -202,12 +270,14 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     {
 
         SimpleLangParser.DecContext dec = global_funcs.get(ctx.Idfr().getText());
-        Map<String, Integer> newFrame = new HashMap<>();
+        Map<String, TypedIdfr> newFrame = new HashMap<>();
 
         for (int i = 0; i < dec.vardec.size(); i++) {
             SimpleLangParser.Typed_idfrContext param = dec.vardec.get(i);
             SimpleLangParser.ExpContext exp = ctx.args.get(i);
-            newFrame.put(param.Idfr().getText(), visit(exp));
+            TypedIdfr t = new TypedIdfr(param.Idfr().getText(), param);
+            t.set(visit(exp));
+            newFrame.put(t.name, t);
         }
 
         frames.push(newFrame);
@@ -223,7 +293,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     {
 
         SimpleLangParser.ExpContext cond = ctx.exp();
-        Integer condValue = visit(cond);
+        Integer condValue = visitTreeEnforceType(cond, SimpleLangParser.BoolType);
         if (condValue > 0) {
 
             SimpleLangParser.BlockContext thenBlock = ctx.block(0);
@@ -242,8 +312,11 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     public Integer visitWhileExpr(SimpleLangParser.WhileExprContext ctx) {
         SimpleLangParser.ExpContext conditionExp = ctx.exp();
 
+        // Expression must return bool-like type
+
         Integer result = null;
-        while (visit(conditionExp) == 1) {
+
+        while (visitTreeEnforceType(conditionExp, SimpleLangParser.BoolType) == 1) {
             result = visit(ctx.block());
         }
 
@@ -285,7 +358,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
         do {
             visit(ctx.block());
         }
-        while (!(visit(conditionExp) == 1));  // Not because in the language it is repeat "until" not "while".
+        while (!(visitTreeEnforceType(conditionExp, SimpleLangParser.BoolType) == 1));  // Not because in the language it is repeat "until" not "while".
 
         return null;
     }
@@ -329,7 +402,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     @Override public Integer visitIdExpr(SimpleLangParser.IdExprContext ctx)
     {
         if (!frames.peek().containsKey(ctx.Idfr().getText())) throw new RuntimeException("Identifier " + ctx.Idfr().getText() + " not found!");
-        return frames.peek().get(ctx.Idfr().getText());
+        return frames.peek().get(ctx.Idfr().getText()).get();
     }
 
     @Override public Integer visitIntExpr(SimpleLangParser.IntExprContext ctx)
